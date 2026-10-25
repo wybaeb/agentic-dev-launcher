@@ -1,0 +1,14 @@
+<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>__TITLE__</title>
+<style>body{margin:0;background:#0F0E0D;color:#F4F1EA;font:15px/1.5 Inter,-apple-system,Segoe UI,sans-serif;display:flex;min-height:100vh;align-items:center;justify-content:center}
+.g{background:#1a1917;border:1px solid rgba(244,241,234,.12);border-radius:14px;padding:26px 28px;width:min(420px,92vw)}h1{font-size:18px;margin:0 0 6px}p{color:rgba(244,241,234,.62);margin:0 0 14px;font-size:14px}
+input{width:100%;box-sizing:border-box;background:#0b0a09;border:1px solid rgba(244,241,234,.2);color:#F4F1EA;border-radius:8px;padding:10px 12px;font-size:15px}button{margin-top:12px;width:100%;background:#F5AE05;color:#0F0E0D;border:0;border-radius:8px;padding:10px;font-weight:700;font-size:15px;cursor:pointer}.e{color:#ff8a7a;font-size:13px;margin-top:8px;min-height:18px}</style></head>
+<body><form class="g" id="f"><h1>Агентная разработка</h1><p>Материалы закрыты паролем. Расшифровка происходит в вашем браузере, пароль никуда не отправляется.</p><input id="pw" type="password" placeholder="Пароль" autofocus><button>Открыть</button><div class="e" id="e"></div></form>
+<script>
+const P="__PAYLOAD__",S="__SALT__",IV="__IV__",IT=__ITER__;const b=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function open(pw){const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
+const k=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b(S),iterations:IT,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['decrypt']);
+const gz=await crypto.subtle.decrypt({name:'AES-GCM',iv:b(IV)},k,b(P));const ds=new Blob([gz]).stream().pipeThrough(new DecompressionStream('gzip'));
+const html=await new Response(ds).text();document.open();document.write(html);document.close();}
+const saved=document.cookie.match(/(?:^|; )adc=([^;]*)/);if(saved){open(decodeURIComponent(saved[1])).catch(()=>{});}
+f.onsubmit=async e=>{e.preventDefault();try{await open(pw.value);document.cookie='adc='+encodeURIComponent(pw.value)+';path=/;max-age=31536000;SameSite=Strict';}catch(x){document.getElementById('e').textContent='Пароль не подошёл'}};
+</script></body></html>

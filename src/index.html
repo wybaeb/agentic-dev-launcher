@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Агентная разработка · подготовка рабочего места</title>
+<style>
+:root{--bg:#0F0E0D;--panel:#1a1917;--panel2:#242220;--line:rgba(244,241,234,.12);--text:#F4F1EA;--dim:rgba(244,241,234,.62);--acc:#F5AE05;--ok:#3ecf8e}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 Inter,-apple-system,Segoe UI,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:28px 20px 80px}h1{font-size:26px;margin:0 0 6px}h1 small{display:block;font-size:14px;color:var(--dim);font-weight:400;margin-top:4px}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:18px 0}
+.step h2{margin:0 0 8px;font-size:18px}.step h2 .n{display:inline-block;background:var(--acc);color:#0F0E0D;border-radius:8px;padding:1px 9px;font-size:13px;margin-right:10px;font-weight:800}
+p{margin:6px 0;color:var(--dim)}pre{position:relative;background:#0b0a09;border:1px solid var(--line);border-radius:10px;padding:12px 90px 12px 14px;overflow:auto;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:#e9e4d6;white-space:pre-wrap}
+.copy{position:absolute;top:8px;right:8px;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:7px;padding:4px 10px;font-size:12px;cursor:pointer}.copy:hover{border-color:var(--acc)}.copy.done{color:var(--ok);border-color:var(--ok)}
+.tabs{display:flex;gap:8px;margin:10px 0}.tabs button{background:var(--panel2);border:1px solid var(--line);color:var(--dim);border-radius:20px;padding:5px 14px;cursor:pointer;font-size:13px}.tabs button.on{color:var(--text);border-color:var(--acc)}
+.pane{display:none}.pane.on{display:block}label{display:block;font-size:13px;color:var(--dim);margin:10px 0 3px}input,select,textarea{width:100%;background:#0b0a09;border:1px solid var(--line);color:var(--text);border-radius:8px;padding:8px 10px;font:14px inherit}
+textarea{min-height:120px;font-family:ui-monospace,Menlo,monospace;font-size:13px}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.hint{font-size:12.5px;color:var(--dim)}
+.check{display:flex;gap:10px;align-items:flex-start;margin:6px 0}.check input{width:auto;margin-top:5px}a{color:var(--acc)}
+</style></head><body><div class="wrap">
+<h1>Агентная разработка · подготовка рабочего места<small>Семь шагов: от проверки окружения до первого прогона. Всё, что вы вводите, остаётся в браузере и никуда не отправляется.</small></h1>
+
+<div class="step"><h2><span class="n">1</span>Проверьте окружение</h2>
+<p>В контейнере разработчика должны быть git, Python 3.10+ и один из агентов. Запустите:</p>
+<pre><button class="copy">Копировать</button>git --version && python3 --version && (command -v claude || command -v codex || command -v opencode)</pre>
+<p class="hint">Если агент не найден — он ставится по вашей внутренней инструкции; программа не привязана к конкретному инструменту.</p></div>
+
+<div class="step"><h2><span class="n">2</span>Заберите материалы</h2>
+<pre><button class="copy">Копировать</button>git clone https://github.com/wybaeb/agentic-dev-course.git
+cd agentic-dev-course && ./tools/bootstrap.sh
+cd lesson-01/demo-project && python3 -m pytest -q</pre>
+<p>Восемь зелёных тестов — точка старта занятия 1.</p></div>
+
+<div class="step"><h2><span class="n">3</span>Подключите агента к шлюзу</h2>
+<p>Агент ходит к моделям через корпоративный шлюз. Заполните поля — ниже соберутся переменные окружения для вашего инструмента.</p>
+<div class="row"><div><label>Адрес шлюза (базовый URL)</label><input id="gw" placeholder="https://llm-gateway.internal/v1"></div><div><label>Ключ доступа</label><input id="key" type="password" placeholder="выдаёт ваша команда платформы"></div></div>
+<div class="row"><div><label>Модель для кода</label><input id="model" placeholder="например, claude-sonnet-4-5 или gpt-5-codex"></div><div><label>Модель для дешёвых задач</label><input id="model2" placeholder="необязательно"></div></div>
+<div class="tabs"><button class="on" data-t="claude">Claude Code</button><button data-t="codex">Codex</button><button data-t="opencode">OpenCode</button></div>
+<div class="pane on" id="p-claude"><pre><button class="copy">Копировать</button><code id="env-claude"></code></pre></div>
+<div class="pane" id="p-codex"><pre><button class="copy">Копировать</button><code id="env-codex"></code></pre></div>
+<div class="pane" id="p-opencode"><pre><button class="copy">Копировать</button><code id="env-opencode"></code></pre></div>
+<p class="hint">Переменные кладутся в <code>.env</code> проекта или в профиль контейнера — как принято у вас. Файл <code>.env</code> в репозитории уже в <code>.gitignore</code>.</p></div>
+
+<div class="step"><h2><span class="n">4</span>Соберите <code>.env</code></h2>
+<p>Тот же набор одним файлом. Значения подставляются из шага 3; секрет вы вводите сами.</p>
+<pre><button class="copy">Копировать</button><code id="envfile"></code></pre>
+<button class="copy" style="position:static" id="dl">Скачать .env</button></div>
+
+<div class="step"><h2><span class="n">5</span>Промпт для первого прогона</h2>
+<p>Шаблон постановки, с которой агент начинает с плана, а не с кода. Подставьте задачу — получите текст.</p>
+<div class="row"><div><label>Номер задачи</label><input id="task" value="TASK-001"></div><div><label>Файл спецификации</label><input id="spec" value="spec/TASK-001.md"></div></div>
+<label>Что считается готовым (одной фразой)</label><input id="done" placeholder="все тесты зелёные, отчёт: что сделано, что проверено, что осталось">
+<pre><button class="copy">Копировать</button><code id="prompt"></code></pre></div>
+
+<div class="step"><h2><span class="n">6</span>Первый прогон — чек-лист</h2>
+<div class="check"><input type="checkbox"><span>Агент прочитал файл правил и предъявил план до кода</span></div>
+<div class="check"><input type="checkbox"><span>Тесты на критерии приёмки появились раньше реализации</span></div>
+<div class="check"><input type="checkbox"><span>Ни один существующий тест не ослаблен и не удалён</span></div>
+<div class="check"><input type="checkbox"><span>Работа в отдельной ветке, отчёт совпадает с дифом</span></div>
+<div class="check"><input type="checkbox"><span>Расход за прогон известен — записан рядом с результатом</span></div></div>
+
+<div class="step"><h2><span class="n">7</span>Домашнее задание</h2>
+<p>Одна своя рабочая задача через полный цикл с агентом. Запись — по шаблону <code>lesson-01/runs/TEMPLATE.md</code>: шаг, что сделал агент, где вмешались и почему. Разбор — через неделю.</p></div>
+</div>
+<script>
+const q=s=>document.querySelector(s),v=id=>(q('#'+id).value||'').trim();
+function gen(){const gw=v('gw')||'https://llm-gateway.internal/v1',key=v('key')||'<ключ>',m=v('model')||'<модель-для-кода>',m2=v('model2');
+q('#env-claude').textContent=`export ANTHROPIC_BASE_URL="${gw}"\nexport ANTHROPIC_AUTH_TOKEN="${key}"\nexport ANTHROPIC_MODEL="${m}"`+(m2?`\nexport ANTHROPIC_SMALL_FAST_MODEL="${m2}"`:'');
+q('#env-codex').textContent=`export OPENAI_BASE_URL="${gw}"\nexport OPENAI_API_KEY="${key}"\n# ~/.codex/config.toml\nmodel = "${m}"`;
+q('#env-opencode').textContent=`export OPENAI_BASE_URL="${gw}"\nexport OPENAI_API_KEY="${key}"\n# opencode.json в корне проекта\n{ "model": "openai/${m}" }`;
+q('#envfile').textContent=`LLM_GATEWAY_URL=${gw}\nLLM_API_KEY=${key}\nLLM_MODEL=${m}`+(m2?`\nLLM_MODEL_CHEAP=${m2}`:'')+`\nANTHROPIC_BASE_URL=${gw}\nANTHROPIC_AUTH_TOKEN=${key}\nOPENAI_BASE_URL=${gw}\nOPENAI_API_KEY=${key}`;
+const t=v('task')||'TASK-001',s=v('spec')||'spec/TASK-001.md',d=v('done')||'все тесты зелёные, отчёт: что сделано, что проверено, что осталось';
+q('#prompt').textContent=`Прочитай AGENTS.md и следуй ему. Задача ${t}: спецификация в ${s}.\nСначала предъяви план по шагам и остановись — жди подтверждения.\nПосле подтверждения: тесты на критерии приёмки, затем реализация, затем python3 -m pytest -q.\nГраницы изменений — из спецификации. Готово, когда: ${d}.`;}
+document.querySelectorAll('input').forEach(i=>i.addEventListener('input',gen));gen();
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('on'));b.classList.add('on');document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('on',p.id==='p-'+b.dataset.t));});
+document.querySelectorAll('pre .copy').forEach(b=>b.onclick=()=>{const t=b.parentElement.innerText.replace(/^Копировать\n?/,'');navigator.clipboard.writeText(t).then(()=>{b.textContent='Скопировано';b.classList.add('done');setTimeout(()=>{b.textContent='Копировать';b.classList.remove('done')},1500)})});
+q('#dl').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([q('#envfile').textContent+'\n'],{type:'text/plain'}));a.download='.env';a.click();};
+</script></body></html>
