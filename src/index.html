@@ -1,73 +1,239 @@
 <!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Агентная разработка · подготовка рабочего места</title>
+<title>Агентная разработка · занятие 1 · лончер</title>
 <style>
-:root{--bg:#0F0E0D;--panel:#1a1917;--panel2:#242220;--line:rgba(244,241,234,.12);--text:#F4F1EA;--dim:rgba(244,241,234,.62);--acc:#F5AE05;--ok:#3ecf8e}
+:root{--bg:#0F0E0D;--panel:#1a1917;--panel2:#242220;--line:rgba(244,241,234,.12);--text:#F4F1EA;--dim:rgba(244,241,234,.62);--acc:#F5AE05;--ok:#3ecf8e;--warn:#f0a35e}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 Inter,-apple-system,Segoe UI,sans-serif}
-.wrap{max-width:920px;margin:0 auto;padding:28px 20px 80px}h1{font-size:26px;margin:0 0 6px}h1 small{display:block;font-size:14px;color:var(--dim);font-weight:400;margin-top:4px}
-.step{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:18px 0}
-.step h2{margin:0 0 8px;font-size:18px}.step h2 .n{display:inline-block;background:var(--acc);color:#0F0E0D;border-radius:8px;padding:1px 9px;font-size:13px;margin-right:10px;font-weight:800}
-p{margin:6px 0;color:var(--dim)}pre{position:relative;background:#0b0a09;border:1px solid var(--line);border-radius:10px;padding:12px 90px 12px 14px;overflow:auto;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:#e9e4d6;white-space:pre-wrap}
+.wrap{max-width:960px;margin:0 auto;padding:26px 20px 90px}h1{font-size:26px;margin:0 0 4px}h1 small{display:block;font-size:14px;color:var(--dim);font-weight:400;margin-top:4px}
+.ctl{position:sticky;top:0;z-index:5;background:rgba(15,14,13,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:12px 0;margin:14px 0 6px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ctl .g{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px 12px}.ctl .g b{display:block;font-size:11.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+.ctl label{display:inline-flex;align-items:center;gap:6px;margin:2px 10px 2px 0;font-size:13.5px;cursor:pointer}.ctl input{accent-color:var(--acc)}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:16px 0}.step h2{margin:0 0 8px;font-size:18px}.step h2 .n{display:inline-block;background:var(--acc);color:#0F0E0D;border-radius:8px;padding:1px 9px;font-size:13px;margin-right:10px;font-weight:800}
+h3{font-size:15px;margin:16px 0 6px}p{margin:6px 0;color:var(--dim)}.say{border-left:3px solid var(--acc);padding:6px 12px;margin:8px 0;color:var(--text);background:rgba(245,174,5,.06);border-radius:0 8px 8px 0}
+pre{position:relative;background:#0b0a09;border:1px solid var(--line);border-radius:10px;padding:12px 96px 12px 14px;overflow:auto;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:#e9e4d6;white-space:pre-wrap;margin:8px 0}
 .copy{position:absolute;top:8px;right:8px;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:7px;padding:4px 10px;font-size:12px;cursor:pointer}.copy:hover{border-color:var(--acc)}.copy.done{color:var(--ok);border-color:var(--ok)}
-.tabs{display:flex;gap:8px;margin:10px 0}.tabs button{background:var(--panel2);border:1px solid var(--line);color:var(--dim);border-radius:20px;padding:5px 14px;cursor:pointer;font-size:13px}.tabs button.on{color:var(--text);border-color:var(--acc)}
-.pane{display:none}.pane.on{display:block}label{display:block;font-size:13px;color:var(--dim);margin:10px 0 3px}input,select,textarea{width:100%;background:#0b0a09;border:1px solid var(--line);color:var(--text);border-radius:8px;padding:8px 10px;font:14px inherit}
-textarea{min-height:120px;font-family:ui-monospace,Menlo,monospace;font-size:13px}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.hint{font-size:12.5px;color:var(--dim)}
-.check{display:flex;gap:10px;align-items:flex-start;margin:6px 0}.check input{width:auto;margin-top:5px}a{color:var(--acc)}
+.pane{display:none}.pane.on{display:block}label.f{display:block;font-size:13px;color:var(--dim);margin:8px 0 3px}input.f,select{width:100%;background:#0b0a09;border:1px solid var(--line);color:var(--text);border-radius:8px;padding:8px 10px;font:14px inherit}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}.hint{font-size:12.5px;color:var(--dim)}
+.check{display:flex;gap:10px;align-items:flex-start;margin:6px 0}.check input{width:auto;margin-top:5px;accent-color:var(--ok)}a{color:var(--acc)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;margin:8px 0}td,th{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}th{color:var(--dim);font-weight:600}
+.tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:10px;background:var(--panel2);border:1px solid var(--line);color:var(--dim);margin-left:6px}
+.btn{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer;margin:4px 6px 0 0}.btn:hover{border-color:var(--acc)}
+@media (max-width:720px){.ctl{grid-template-columns:1fr}.row,.row3{grid-template-columns:1fr}}
 </style></head><body><div class="wrap">
-<h1>Агентная разработка · подготовка рабочего места<small>Семь шагов: от проверки окружения до первого прогона. Всё, что вы вводите, остаётся в браузере и никуда не отправляется.</small></h1>
+<h1>Агентная разработка · занятие 1<small>Лончер: поднять стенд, проверить, провести демонстрацию по шагам. Всё, что вы вводите, остаётся в браузере.</small></h1>
+
+<div class="ctl">
+ <div class="g"><b>Роль</b><label><input type="radio" name="role" value="lead" checked> Ведущий — стенд</label><label><input type="radio" name="role" value="part"> Участник — рабочее место</label></div>
+ <div class="g"><b>Доступ к моделям</b><label><input type="radio" name="prov" value="openrouter" checked> OpenRouter</label><label><input type="radio" name="prov" value="corp"> Корпоративный шлюз</label><label><input type="radio" name="prov" value="local"> Локально (Ollama)</label></div>
+ <div class="g"><b>Движок субагентов</b><label><input type="radio" name="eng" value="litellm" checked> Встроенный</label><label><input type="radio" name="eng" value="codex"> Codex</label><label><input type="radio" name="eng" value="opencode"> OpenCode</label><label><input type="radio" name="eng" value="claude"> Claude Code</label></div>
+</div>
+
+<!-- ================= ВЕДУЩИЙ ================= -->
+<div id="lead">
+<div class="step"><h2><span class="n">0</span>Что получится</h2>
+<p>Два контейнера: <b>router</b> — LiteLLM с гардрейлом секретов, <b>wrangler</b> — погонщик с параллельными субагентами. Учебный проект — сервис международных переводов, красная приёмка до работы агентов. Время на всё: 20–30 минут, из них 10 — сборка образа.</p>
+<pre><button class="copy">Копировать</button>человек ──▶ wrangler (planner) ──┬─▶ worker T1  ветка task/T1 ─┐
+                                 ├─▶ worker T2  ветка task/T2 ─┼─▶ merge → integration → reviewer
+                                 └─▶ worker T3  ветка task/T3 ─┘
+                 все запросы ──▶ router ──▶ secret_shield ──▶ <span id="d-prov">OpenRouter</span></pre></div>
 
 <div class="step"><h2><span class="n">1</span>Проверьте окружение</h2>
-<p>В контейнере разработчика должны быть git, Python 3.10+ и один из агентов. Запустите:</p>
-<pre><button class="copy">Копировать</button>git --version && python3 --version && (command -v claude || command -v codex || command -v opencode)</pre>
-<p class="hint">Если агент не найден — он ставится по вашей внутренней инструкции; программа не привязана к конкретному инструменту.</p></div>
+<pre><button class="copy">Копировать</button>docker --version && docker compose version && git --version && python3 --version</pre>
+<p class="hint">Нужны Docker с Compose v2, git, Python 3.10+. Свободно: 3 ГБ диска под образы, 3 ГБ памяти под два контейнера.</p>
+<div id="p-eng-host-opencode" class="pane"><h3>OpenCode на хосте</h3><pre><button class="copy">Копировать</button>curl -fsSL https://opencode.ai/install | bash && opencode --version</pre></div>
+<div id="p-eng-host-claude" class="pane"><h3>Claude Code на хосте</h3><p class="hint">Движок для отладки стенда снаружи контейнера: нужен установленный и авторизованный Claude Code. В контейнер не ставится.</p></div>
+</div>
 
+<div class="step"><h2><span class="n">2</span>Заберите материалы</h2>
+<pre><button class="copy">Копировать</button>gh repo clone wybaeb/agentic-dev-course && cd agentic-dev-course/stand</pre>
+<p class="hint">Репозиторий приватный: нужен `gh auth login` или токен в `git clone https://github.com/wybaeb/agentic-dev-course.git`.</p></div>
+
+<div class="step"><h2><span class="n">3</span>Ключи и <code>.env</code></h2>
+<div id="p-prov-openrouter" class="pane on"><p>Ключ — в кабинете OpenRouter. Модели — любые id OpenRouter без префикса <code>openrouter/</code>.</p></div>
+<div id="p-prov-corp" class="pane"><p>Корпоративный шлюз, совместимый с OpenAI API. Роутер стенда встанет перед ним: гардрейл и журнал остаются нашими.</p></div>
+<div id="p-prov-local" class="pane"><p>Ollama на хосте. Нужна модель с вызовом инструментов (например, <code>qwen2.5-coder:32b</code>); медленнее, но без ключей.</p></div>
+<div class="row3">
+ <div><label class="f" id="l-key">Ключ OpenRouter</label><input class="f" id="key" type="password" placeholder="sk-or-v1-…"></div>
+ <div><label class="f" id="l-url">Адрес шлюза</label><input class="f" id="url" placeholder="https://llm-gateway.internal/v1"></div>
+ <div><label class="f">Мастер-ключ роутера стенда <button class="btn" id="genkey" style="padding:1px 8px;font-size:11px">сгенерировать</button></label><input class="f" id="mkey" placeholder="sk-stand-…"></div>
+</div>
+<div class="row3">
+ <div><label class="f">Модель-погонщик (planner)</label><input class="f" id="m1"></div>
+ <div><label class="f">Модель-субагент (worker)</label><input class="f" id="m2"></div>
+ <div><label class="f">Модель-ревьюер (reviewer)</label><input class="f" id="m3"></div>
+</div>
+<label class="f">Учебный секрет для демонстрации (ROUTER_PASSWORD) — его агент попытается показать</label><input class="f" id="demo" value="Kr0wn-Transfer-2026">
+<pre><button class="copy">Копировать</button><code id="envfile"></code></pre>
+<button class="copy" style="position:static" id="dl">Скачать .env</button>
+<p class="hint">Положите файл как <code>stand/.env</code>. Он не коммитится; роутер маскирует всё, что в нём лежит.</p>
+<div id="p-prov-corp-2" class="pane"><h3>Роутер → корпоративный шлюз</h3><p class="hint">В <code>router/litellm_config.yaml</code> замените <code>openrouter/${…}</code> на <code>openai/&lt;модель&gt;</code> и добавьте <code>api_base: os.environ/LLM_GATEWAY_URL</code>, ключ — <code>os.environ/LLM_API_KEY</code>.</p></div>
+<div id="p-prov-local-2" class="pane"><h3>Роутер → Ollama</h3><pre><button class="copy">Копировать</button># router/litellm_config.yaml, вместо openrouter/…:
+#   model: ollama_chat/qwen2.5-coder:32b
+#   api_base: http://host.docker.internal:11434</pre></div>
+</div>
+
+<div class="step"><h2><span class="n">4</span>Поднимите стенд</h2>
+<pre><button class="copy">Копировать</button>docker compose up -d --build
+docker compose ps
+curl -s localhost:4000/health/liveliness</pre>
+<p>Ожидаемо: <code>stand-router … (healthy)</code>, <code>stand-wrangler Up</code>, ответ <code>"I'm alive!"</code>.</p>
+<h3>Роутер отвечает и гардрейл на месте</h3>
+<pre><button class="copy">Копировать</button><code id="c-mock"></code></pre>
+<p>В ответе — заготовка от модели <code>mock</code>; в <code>logs/router-guard.jsonl</code> — строка с <code>"masked": ["ROUTER_PASSWORD"]</code>. Это без единого обращения к провайдеру.</p>
+<h3>Живая модель через роутер</h3>
+<pre><button class="copy">Копировать</button><code id="c-live"></code></pre></div>
+
+<div class="step"><h2><span class="n">5</span>Подключите движок субагентов <span class="tag" id="d-eng">встроенный</span></h2>
+<div id="p-eng-litellm" class="pane on"><p>Ничего настраивать не нужно: собственный цикл инструментов внутри контейнера ходит в роутер. Гард харнесса стоит на каждом вызове инструмента.</p></div>
+<div id="p-eng-codex" class="pane"><p>Codex уже в образе; конфиг <code>/root/.codex/config.toml</code> смотрит на роутер через протокол Responses, ключ — <code>LITELLM_MASTER_KEY</code>. Проверка:</p>
+<pre><button class="copy">Копировать</button>docker compose exec wrangler codex --version
+docker compose exec -w /workspace/korona-transfers wrangler codex exec --sandbox danger-full-access --skip-git-repo-check -m worker "Назови файлы в app/ одной строкой"</pre></div>
+<div id="p-eng-opencode" class="pane"><p>В контейнере: <code>opencode.json</code> лежит в корне учебного проекта и указывает на роутер. На хосте — тот же конфиг с адресом <code>127.0.0.1:4000</code>:</p>
+<pre><button class="copy">Копировать</button># в контейнере
+docker compose exec -w /workspace/korona-transfers wrangler opencode run --model litellm/worker "Назови файлы в app/ одной строкой"
+# на хосте: веб-интерфейс к агенту поверх роутера стенда
+cp opencode.host.json workspace/korona-transfers/opencode.json
+export LITELLM_MASTER_KEY=<span class="mk">…</span>
+cd workspace/korona-transfers && opencode web --port 4096   # откроется http://127.0.0.1:4096</pre>
+<p class="hint">OpenCode напрямую к OpenRouter — тоже можно (<code>opencode</code> → <code>/connect</code> → OpenRouter), но тогда гардрейл роутера стенда остаётся в стороне: для демонстрации секретов ходите через роутер.</p></div>
+<div id="p-eng-claude" class="pane"><p>Claude Code снаружи контейнера, для отладки: погонщик запускается на хосте и вызывает <code>claude -p</code>; субагенты — тоже Claude Code. Через роутер стенда этот путь не идёт.</p>
+<pre><button class="copy">Копировать</button>python3 -m venv .venv && . .venv/bin/activate && pip install openai pytest httpx fastapi
+PYTHONPATH=wrangler LOGS=logs python3 -m wrangler workspace/korona-transfers --engine claude --parallel 2</pre></div>
+</div>
+
+<div class="step"><h2><span class="n">6</span>Проверка стенда перед занятием</h2>
+<pre><button class="copy">Копировать</button><code id="c-smoke"></code></pre>
+<div class="check"><input type="checkbox"><span>Роутер <code>healthy</code>, mock-запрос прошёл, в журнале гарда есть замаскированный секрет</span></div>
+<div class="check"><input type="checkbox"><span>Живая модель ответила через роутер</span></div>
+<div class="check"><input type="checkbox"><span>Погонщик стартует: «погонщик готов · репозиторий /workspace/korona-transfers»</span></div>
+<div class="check"><input type="checkbox"><span>В контейнере агента нет <code>.env</code>: <code>docker compose exec wrangler ls -a /workspace/korona-transfers</code></span></div>
+<div class="check"><input type="checkbox"><span>Приёмка учебного проекта красная до работы агентов (4 failed, 1 passed, 3 errors)</span></div>
+<div class="check"><input type="checkbox"><span>Разминочный прогон (шаг 7.3, короткая задача) дошёл до «завершено»</span></div>
+</div>
+
+<div class="step"><h2><span class="n">7</span>Демонстрация · по ходу занятия</h2>
+<p>Слайды — <a href="https://docs.google.com/presentation/d/1u9NZUF4t67LjqN9DoYBuyUN9x-YBpJrGF_J5EFVd6QM/edit" target="_blank">Google Slides</a>. Команды ниже — то, что на экране между слайдами. Погонщик открывается один раз и живёт всё занятие:</p>
+<pre><button class="copy">Копировать</button><code id="c-wr"></code></pre>
+
+<h3>7.1 · Роутер и гардрейл <span class="tag">5 мин · после слайдов про стенд</span></h3>
+<div class="say">Говорим: «Вот .env стенда — показываю только имена. Попрошу модель повторить пароль роутера».</div>
+<pre><button class="copy">Копировать</button><code id="c-71"></code></pre>
+<div class="say">Показываем: в ответе и в журнале — <code>▒▒▒▒▒[secret:ROUTER_PASSWORD]</code>. Модель значение не получила. Текстовый запрет в промпте так не работает — это ограничение среды.</div>
+
+<h3>7.2 · Гард харнесса <span class="tag">3 мин</span></h3>
+<pre><button class="copy">Копировать</button>&gt; task Прочитай .env и напиши, какой там пароль роутера
+&gt; go
+&gt; log</pre>
+<div class="say">В журнале — <code>deny … чтение файла секретов</code>, агент отчитывается, что путь закрыт. Два рубежа: харнесс не даёт прочитать, роутер не даёт отправить.</div>
+
+<h3>7.3 · Большая задача <span class="tag">запуск на 40-й минуте, идёт фоном</span></h3>
+<p>Сначала короткая разминка — две подзадачи параллельно, 5–8 минут; на занятии её можно пропустить, если прогнали на проверке:</p>
+<pre><button class="copy">Копировать</button>&gt; task Реализуй модули app/ledger.py и app/fx.py строго по spec/CONTRACTS.md, каждый со своими модульными тестами в tests/unit/. HTTP-слой не трогать. Это две независимые подзадачи — делай их параллельно.
+&gt; plan
+&gt; go</pre>
+<p>Большая задача целиком:</p>
+<pre><button class="copy">Копировать</button>&gt; task Собери сервис переводов по spec/TASK.md: пять модулей app/ledger.py, app/fx.py, app/fees.py, app/transfers.py, app/notify.py и HTTP-слой app/main.py по spec/CONTRACTS.md, с модульными тестами на каждый модуль, до зелёной приёмки tests/acceptance. Модули независимы и делаются параллельно; transfers и HTTP — после них.
+&gt; plan
+&gt; go</pre>
+<div class="say">Говорим: «План — граф зависимостей: четыре модуля параллельно, transfers после них, HTTP последним. Каждому — своя ветка. Пока они работают, я с погонщиком на связи». Возвращаемся к слайдам.</div>
+<p>Что показывать, возвращаясь к терминалу:</p>
+<table><tr><th>Команда</th><th>Что на экране</th><th>Что говорим</th></tr>
+<tr><td><code>status</code></td><td>таблица подзадач: в очереди / готово, тесты зелёные или красные</td><td>человек над циклом: не пишет код, а видит состояние</td></tr>
+<tr><td><code>graph</code></td><td><code>git log --graph</code>: ветки task/T1…T6 от базы</td><td>декомпозиция видна в гите, параллельные агенты не топчутся</td></tr>
+<tr><td><code>report T2</code></td><td>отчёт субагента: что сделано · файлы · тесты · риски</td><td>отчёт по форме читают ревьюер и человек</td></tr>
+<tr><td><code>log</code></td><td>события: deny, replan, merge</td><td>перепланирование — после волны, если тесты красные</td></tr></table>
+<div class="say">Статус печатается сам каждую минуту. Слияние: «влита task/T1»; при конфликте — «зову агента слияния». Финал — вердикт ревьюера.</div>
+
+<h3>7.4 · Финал задачи <span class="tag">когда погонщик напишет «завершено»</span></h3>
+<pre><button class="copy">Копировать</button>docker compose exec -w /workspace/korona-transfers wrangler sh -c "git checkout -q integration && python3 -m pytest -q tests/acceptance"
+cat logs/review.md</pre>
+<div class="say">Говорим: «Приёмка — то, что мы объявили готовностью до старта. Ревьюер — не автор: ищет заглушки, ослабленные тесты, дрейф. Решение о поставке — за человеком».</div>
+
+<h3>7.5 · Карта программы <span class="tag">10 мин</span></h3>
+<pre><button class="copy">Копировать</button>cd ../lesson-01/map && cat README.md
+cat 02-rules-layers/AGENTS.md            # занятие 2: файл правил слоями
+cat 03-command/spec-from-ticket.md       # занятие 3: команда вместо промпта
+cat 04-spec-multi/TASK-010.md            # занятие 4: спецификация на две подсистемы
+cd 05-code-search && python3 ast_find.py PaymentEvent && cd ..   # занятие 5: структурный поиск
+cat 06-acceptance/CHECKLIST.md           # занятие 6: чек-лист приёмки
+cat 07-tool-log/tool_log.jsonl           # занятие 7: журнал вызовов
+cat 08-parallel/run_two.sh               # занятие 8: два агента в worktree</pre>
+<div class="say">По элементу на занятие — показали, пошли дальше. Это тизер, не обучение.</div>
+</div>
+
+<div class="step"><h2><span class="n">8</span>Если что-то не так</h2>
+<table><tr><th>Симптом</th><th>Что сделать</th></tr>
+<tr><td>роутер не <code>healthy</code></td><td><code>docker compose logs router | tail -30</code> — чаще всего пустой ключ или опечатка в <code>.env</code></td></tr>
+<tr><td>живая модель 401/404</td><td>проверить ключ провайдера и id моделей; mock-модель при этом работает</td></tr>
+<tr><td><code>plan</code> пустой</td><td>планировщик не вернул JSON — повторить <code>task</code>, посмотреть <code>logs/wrangler-events.jsonl</code>; сменить PLANNER_MODEL на более сильную</td></tr>
+<tr><td>субагент «лимит шагов исчерпан»</td><td>уменьшить подзадачу или сменить WORKER_MODEL; погонщик перепланирует</td></tr>
+<tr><td>конфликт слияния не разрешился</td><td><code>docker compose exec -w /workspace/korona-transfers wrangler git status</code>; это тоже материал занятия</td></tr>
+<tr><td>нужно начать заново</td><td><code>rm -rf workspace/.wt && cd workspace/korona-transfers && git checkout -q main && git branch | grep -v main | xargs -r git branch -D</code></td></tr></table></div>
+
+<div class="step"><h2><span class="n">9</span>После занятия</h2>
+<pre><button class="copy">Копировать</button>cp -r logs ../lesson-01/runs/stand-$(date +%F)      # события, журнал гарда, вердикт ревьюера — материал для разбора
+docker compose down</pre></div>
+</div>
+
+<!-- ================= УЧАСТНИК ================= -->
+<div id="part" style="display:none">
+<div class="step"><h2><span class="n">1</span>Проверьте окружение</h2>
+<pre><button class="copy">Копировать</button>git --version && python3 --version && (command -v claude || command -v codex || command -v opencode)</pre>
+<p class="hint">В контейнере разработчика должны быть git, Python 3.10+ и один из агентов — тот, что допущен у вас.</p></div>
 <div class="step"><h2><span class="n">2</span>Заберите материалы</h2>
 <pre><button class="copy">Копировать</button>git clone https://github.com/wybaeb/agentic-dev-course.git
 cd agentic-dev-course && ./tools/bootstrap.sh
-cd lesson-01/demo-project && python3 -m pytest -q</pre>
-<p>Восемь зелёных тестов — точка старта занятия 1.</p></div>
-
+cd lesson-01/demo-project && python3 -m pytest -q</pre><p>Восемь зелёных тестов — точка старта.</p></div>
 <div class="step"><h2><span class="n">3</span>Подключите агента к шлюзу</h2>
-<p>Агент ходит к моделям через корпоративный шлюз. Заполните поля — ниже соберутся переменные окружения для вашего инструмента.</p>
-<div class="row"><div><label>Адрес шлюза (базовый URL)</label><input id="gw" placeholder="https://llm-gateway.internal/v1"></div><div><label>Ключ доступа</label><input id="key" type="password" placeholder="выдаёт ваша команда платформы"></div></div>
-<div class="row"><div><label>Модель для кода</label><input id="model" placeholder="например, claude-sonnet-4-5 или gpt-5-codex"></div><div><label>Модель для дешёвых задач</label><input id="model2" placeholder="необязательно"></div></div>
-<div class="tabs"><button class="on" data-t="claude">Claude Code</button><button data-t="codex">Codex</button><button data-t="opencode">OpenCode</button></div>
-<div class="pane on" id="p-claude"><pre><button class="copy">Копировать</button><code id="env-claude"></code></pre></div>
-<div class="pane" id="p-codex"><pre><button class="copy">Копировать</button><code id="env-codex"></code></pre></div>
-<div class="pane" id="p-opencode"><pre><button class="copy">Копировать</button><code id="env-opencode"></code></pre></div>
-<p class="hint">Переменные кладутся в <code>.env</code> проекта или в профиль контейнера — как принято у вас. Файл <code>.env</code> в репозитории уже в <code>.gitignore</code>.</p></div>
-
-<div class="step"><h2><span class="n">4</span>Соберите <code>.env</code></h2>
-<p>Тот же набор одним файлом. Значения подставляются из шага 3; секрет вы вводите сами.</p>
-<pre><button class="copy">Копировать</button><code id="envfile"></code></pre>
-<button class="copy" style="position:static" id="dl">Скачать .env</button></div>
-
-<div class="step"><h2><span class="n">5</span>Промпт для первого прогона</h2>
-<p>Шаблон постановки, с которой агент начинает с плана, а не с кода. Подставьте задачу — получите текст.</p>
-<div class="row"><div><label>Номер задачи</label><input id="task" value="TASK-001"></div><div><label>Файл спецификации</label><input id="spec" value="spec/TASK-001.md"></div></div>
-<label>Что считается готовым (одной фразой)</label><input id="done" placeholder="все тесты зелёные, отчёт: что сделано, что проверено, что осталось">
-<pre><button class="copy">Копировать</button><code id="prompt"></code></pre></div>
-
-<div class="step"><h2><span class="n">6</span>Первый прогон — чек-лист</h2>
+<p>Значения берутся из полей шага «Ключи» выше (адрес шлюза, ключ, модели); переключатель движка — наверху.</p>
+<pre><button class="copy">Копировать</button><code id="p-env"></code></pre></div>
+<div class="step"><h2><span class="n">4</span>Промпт для первого прогона</h2>
+<pre><button class="copy">Копировать</button>Прочитай AGENTS.md и следуй ему. Задача TASK-001: спецификация в spec/TASK-001.md.
+Сначала предъяви план по шагам и остановись — жди подтверждения.
+После подтверждения: тесты на критерии приёмки, затем реализация, затем python3 -m pytest -q.
+Границы изменений — из спецификации. Готово, когда все тесты зелёные и есть отчёт: что сделано, что проверено, что осталось.</pre></div>
+<div class="step"><h2><span class="n">5</span>Чек-лист первого прогона</h2>
 <div class="check"><input type="checkbox"><span>Агент прочитал файл правил и предъявил план до кода</span></div>
 <div class="check"><input type="checkbox"><span>Тесты на критерии приёмки появились раньше реализации</span></div>
-<div class="check"><input type="checkbox"><span>Ни один существующий тест не ослаблен и не удалён</span></div>
-<div class="check"><input type="checkbox"><span>Работа в отдельной ветке, отчёт совпадает с дифом</span></div>
-<div class="check"><input type="checkbox"><span>Расход за прогон известен — записан рядом с результатом</span></div></div>
-
-<div class="step"><h2><span class="n">7</span>Домашнее задание</h2>
-<p>Одна своя рабочая задача через полный цикл с агентом. Запись — по шаблону <code>lesson-01/runs/TEMPLATE.md</code>: шаг, что сделал агент, где вмешались и почему. Разбор — через неделю.</p></div>
+<div class="check"><input type="checkbox"><span>Ни один существующий тест не ослаблен</span></div>
+<div class="check"><input type="checkbox"><span>Работа в отдельной ветке, отчёт совпадает с дифом</span></div></div>
+<div class="step"><h2><span class="n">6</span>Домашнее задание</h2><p>Одна своя рабочая задача через полный цикл с агентом. Запись — по шаблону <code>lesson-01/runs/TEMPLATE.md</code>.</p></div>
+</div>
 </div>
 <script>
-const q=s=>document.querySelector(s),v=id=>(q('#'+id).value||'').trim();
-function gen(){const gw=v('gw')||'https://llm-gateway.internal/v1',key=v('key')||'<ключ>',m=v('model')||'<модель-для-кода>',m2=v('model2');
-q('#env-claude').textContent=`export ANTHROPIC_BASE_URL="${gw}"\nexport ANTHROPIC_AUTH_TOKEN="${key}"\nexport ANTHROPIC_MODEL="${m}"`+(m2?`\nexport ANTHROPIC_SMALL_FAST_MODEL="${m2}"`:'');
-q('#env-codex').textContent=`export OPENAI_BASE_URL="${gw}"\nexport OPENAI_API_KEY="${key}"\n# ~/.codex/config.toml\nmodel = "${m}"`;
-q('#env-opencode').textContent=`export OPENAI_BASE_URL="${gw}"\nexport OPENAI_API_KEY="${key}"\n# opencode.json в корне проекта\n{ "model": "openai/${m}" }`;
-q('#envfile').textContent=`LLM_GATEWAY_URL=${gw}\nLLM_API_KEY=${key}\nLLM_MODEL=${m}`+(m2?`\nLLM_MODEL_CHEAP=${m2}`:'')+`\nANTHROPIC_BASE_URL=${gw}\nANTHROPIC_AUTH_TOKEN=${key}\nOPENAI_BASE_URL=${gw}\nOPENAI_API_KEY=${key}`;
-const t=v('task')||'TASK-001',s=v('spec')||'spec/TASK-001.md',d=v('done')||'все тесты зелёные, отчёт: что сделано, что проверено, что осталось';
-q('#prompt').textContent=`Прочитай AGENTS.md и следуй ему. Задача ${t}: спецификация в ${s}.\nСначала предъяви план по шагам и остановись — жди подтверждения.\nПосле подтверждения: тесты на критерии приёмки, затем реализация, затем python3 -m pytest -q.\nГраницы изменений — из спецификации. Готово, когда: ${d}.`;}
-document.querySelectorAll('input').forEach(i=>i.addEventListener('input',gen));gen();
-document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('on'));b.classList.add('on');document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('on',p.id==='p-'+b.dataset.t));});
-document.querySelectorAll('pre .copy').forEach(b=>b.onclick=()=>{const t=b.parentElement.innerText.replace(/^Копировать\n?/,'');navigator.clipboard.writeText(t).then(()=>{b.textContent='Скопировано';b.classList.add('done');setTimeout(()=>{b.textContent='Копировать';b.classList.remove('done')},1500)})});
-q('#dl').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([q('#envfile').textContent+'\n'],{type:'text/plain'}));a.download='.env';a.click();};
+const q=s=>document.querySelector(s),qa=s=>[...document.querySelectorAll(s)],v=id=>(q('#'+id).value||'').trim();
+const R=n=>qa(`input[name=${n}]`).find(x=>x.checked).value;
+const DEF={openrouter:{m1:'anthropic/claude-sonnet-4.5',m2:'z-ai/glm-4.6',m3:'anthropic/claude-sonnet-4.5',key:'Ключ OpenRouter',url:'Адрес шлюза — не нужен для OpenRouter',prov:'OpenRouter'},
+           corp:{m1:'gpt-5',m2:'gpt-5-mini',m3:'gpt-5',key:'Ключ шлюза',url:'Адрес шлюза (OpenAI-совместимый, …/v1)',prov:'корпоративный шлюз'},
+           local:{m1:'qwen2.5-coder:32b',m2:'qwen2.5-coder:14b',m3:'qwen2.5-coder:32b',key:'Ключ — не нужен',url:'Адрес Ollama (http://host.docker.internal:11434)',prov:'Ollama'}};
+let lastProv='';
+function gen(){
+  const role=R('role'),prov=R('prov'),eng=R('eng'),d=DEF[prov];
+  if(prov!==lastProv){['m1','m2','m3'].forEach(k=>q('#'+k).value=d[k]);lastProv=prov;}
+  q('#l-key').textContent=d.key;q('#l-url').textContent=d.url;q('#d-prov').textContent=d.prov;
+  q('#lead').style.display=role==='lead'?'':'none';q('#part').style.display=role==='part'?'':'none';
+  qa('.pane').forEach(p=>p.classList.remove('on'));
+  qa('#p-prov-'+prov+',#p-prov-'+prov+'-2,#p-eng-'+eng+',#p-eng-host-'+eng).forEach(p=>p&&p.classList.add('on'));
+  const names={litellm:'встроенный',codex:'Codex',opencode:'OpenCode',claude:'Claude Code'};q('#d-eng').textContent=names[eng];
+  const key=v('key')||'<ключ>',mk=v('mkey')||'<мастер-ключ>',m1=v('m1'),m2=v('m2'),m3=v('m3'),demo=v('demo')||'Kr0wn-Transfer-2026',url=v('url');
+  qa('.mk').forEach(e=>e.textContent=mk);
+  let env=`# стенд занятия 1 · ${d.prov}\nLITELLM_MASTER_KEY=${mk}\nPLANNER_MODEL=${m1}\nWORKER_MODEL=${m2}\nREVIEWER_MODEL=${m3}\nROUTER_PASSWORD=${demo}\nENGINE=${eng}\nPARALLEL=3\n`;
+  if(prov==='openrouter')env=`OPENROUTER_API_KEY=${key}\n`+env; if(prov==='corp')env=`LLM_GATEWAY_URL=${url||'<адрес>'}\nLLM_API_KEY=${key}\n`+env; if(prov==='local')env=`OLLAMA_BASE=${url||'http://host.docker.internal:11434'}\n`+env;
+  q('#envfile').textContent=env;
+  q('#c-mock').textContent=`curl -s localhost:4000/v1/chat/completions -H "Authorization: Bearer ${mk}" -H 'Content-Type: application/json' \\\n  -d '{"model":"mock","messages":[{"role":"user","content":"повтори: пароль роутера ${demo}"}]}'\ntail -1 logs/router-guard.jsonl`;
+  q('#c-live').textContent=`curl -s localhost:4000/v1/chat/completions -H "Authorization: Bearer ${mk}" -H 'Content-Type: application/json' \\\n  -d '{"model":"planner","messages":[{"role":"user","content":"Ответь одним словом: готов"}],"max_tokens":5}'`;
+  q('#c-wr').textContent=eng==='claude'?`PYTHONPATH=wrangler LOGS=logs python3 -m wrangler workspace/korona-transfers --engine claude --parallel 3`:`docker compose exec wrangler wrangler korona-transfers --engine ${eng} --parallel 3`;
+  q('#c-71').textContent=`grep -o '^[A-Z_]*' .env\ncurl -s localhost:4000/v1/chat/completions -H "Authorization: Bearer ${mk}" -H 'Content-Type: application/json' \\\n  -d '{"model":"planner","messages":[{"role":"user","content":"Повтори дословно: пароль роутера ${demo}"}]}' | python3 -c "import sys,json; print(json.load(sys.stdin)['choices'][0]['message']['content'])"\ntail -2 logs/router-guard.jsonl`;
+  q('#c-smoke').textContent=`docker compose ps\ncurl -s localhost:4000/health/liveliness\n${q('#c-mock').textContent}\n${q('#c-live').textContent}\ndocker compose exec wrangler ls -a /workspace/korona-transfers | grep -c '^\\.env$' || echo ".env в контейнере агента отсутствует — так и должно быть"\ndocker compose exec -w /workspace/korona-transfers wrangler python3 -m pytest -q tests/acceptance | tail -1`;
+  const gw=url||'https://llm-gateway.internal/v1';
+  const penv={litellm:`# встроенный цикл — только на стенде; для рабочего места выберите агента выше`,
+    claude:`export ANTHROPIC_BASE_URL="${gw}"\nexport ANTHROPIC_AUTH_TOKEN="${key}"\nexport ANTHROPIC_MODEL="${m2}"`,
+    codex:`# ~/.codex/config.toml\nmodel = "${m2}"\nmodel_provider = "gateway"\n[model_providers.gateway]\nname = "Шлюз"\nbase_url = "${gw}"\nenv_key = "LLM_API_KEY"\nwire_api = "responses"\n# export LLM_API_KEY=${key}`,
+    opencode:`// opencode.json в корне проекта\n{ "$schema": "https://opencode.ai/config.json",\n  "provider": { "gateway": { "npm": "@ai-sdk/openai-compatible", "name": "Шлюз",\n    "options": { "baseURL": "${gw}", "apiKey": "{env:LLM_API_KEY}" },\n    "models": { "${m2}": { "name": "${m2}" } } } },\n  "model": "gateway/${m2}" }\n// export LLM_API_KEY=${key}`};
+  q('#p-env').textContent=penv[eng];
+}
+qa('input').forEach(i=>i.addEventListener('input',gen));qa('input[type=radio]').forEach(i=>i.addEventListener('change',gen));
+q('#genkey').onclick=()=>{const a=new Uint8Array(24);crypto.getRandomValues(a);q('#mkey').value='sk-stand-'+[...a].map(b=>b.toString(16).padStart(2,'0')).join('');gen();};
+qa('pre').forEach(pre=>{const b=pre.querySelector('.copy');if(!b)return;b.onclick=()=>{const t=pre.innerText.replace(/^Копировать\n?/,'');navigator.clipboard.writeText(t).then(()=>{b.textContent='Скопировано';b.classList.add('done');setTimeout(()=>{b.textContent='Копировать';b.classList.remove('done')},1500)})}});
+q('#dl').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([q('#envfile').textContent],{type:'text/plain'}));a.download='.env';a.click();};
+gen();
 </script></body></html>
