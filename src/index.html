@@ -65,6 +65,7 @@ table{border-collapse:collapse;width:100%;font-size:13.5px;margin:8px 0}td,th{bo
 <pre><button class="copy">Копировать</button><code id="envfile"></code></pre>
 <button class="copy" style="position:static" id="dl">Скачать .env</button>
 <p class="hint">Положите файл как <code>stand/.env</code>. Он не коммитится; роутер маскирует всё, что в нём лежит.</p>
+<p class="hint"><b>Мастер-ключ подставляется во все команды ниже.</b> Если в запросе к роутеру ключ не совпадает с <code>LITELLM_MASTER_KEY</code> из <code>.env</code>, LiteLLM отвечает не «401», а <code>No connected db</code> — он идёт искать ключ в базе, которой у стенда нет. Это всегда означает «не тот ключ».</p>
 <div id="p-prov-corp-2" class="pane"><h3>Роутер → корпоративный шлюз</h3><p class="hint">В <code>router/litellm_config.yaml</code> замените <code>openrouter/${…}</code> на <code>openai/&lt;модель&gt;</code> и добавьте <code>api_base: os.environ/LLM_GATEWAY_URL</code>, ключ — <code>os.environ/LLM_API_KEY</code>.</p></div>
 <div id="p-prov-local-2" class="pane"><h3>Роутер → Ollama</h3><pre><button class="copy">Копировать</button># router/litellm_config.yaml, вместо openrouter/…:
 #   model: ollama_chat/qwen2.5-coder:32b
@@ -206,7 +207,9 @@ const DEF={openrouter:{m1:'anthropic/claude-sonnet-4.5',m2:'z-ai/glm-4.6',m3:'an
            corp:{m1:'gpt-5',m2:'gpt-5-mini',m3:'gpt-5',key:'Ключ шлюза',url:'Адрес шлюза (OpenAI-совместимый, …/v1)',prov:'корпоративный шлюз'},
            local:{m1:'qwen2.5-coder:32b',m2:'qwen2.5-coder:14b',m3:'qwen2.5-coder:32b',key:'Ключ — не нужен',url:'Адрес Ollama (http://host.docker.internal:11434)',prov:'Ollama'}};
 let lastProv='';
+function genKey(){const a=new Uint8Array(24);crypto.getRandomValues(a);return 'sk-stand-'+[...a].map(b=>b.toString(16).padStart(2,'0')).join('');}
 function gen(){
+  if(!v('mkey')){q('#mkey').value=genKey();}
   const role=R('role'),prov=R('prov'),eng=R('eng'),d=DEF[prov];
   if(prov!==lastProv){['m1','m2','m3'].forEach(k=>q('#'+k).value=d[k]);lastProv=prov;}
   q('#l-key').textContent=d.key;q('#l-url').textContent=d.url;q('#d-prov').textContent=d.prov;
@@ -232,7 +235,7 @@ function gen(){
   q('#p-env').textContent=penv[eng];
 }
 qa('input').forEach(i=>i.addEventListener('input',gen));qa('input[type=radio]').forEach(i=>i.addEventListener('change',gen));
-q('#genkey').onclick=()=>{const a=new Uint8Array(24);crypto.getRandomValues(a);q('#mkey').value='sk-stand-'+[...a].map(b=>b.toString(16).padStart(2,'0')).join('');gen();};
+q('#genkey').onclick=()=>{q('#mkey').value=genKey();gen();};
 qa('pre').forEach(pre=>{const b=pre.querySelector('.copy');if(!b)return;b.onclick=()=>{const t=pre.innerText.replace(/^Копировать\n?/,'');navigator.clipboard.writeText(t).then(()=>{b.textContent='Скопировано';b.classList.add('done');setTimeout(()=>{b.textContent='Копировать';b.classList.remove('done')},1500)})}});
 q('#dl').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([q('#envfile').textContent],{type:'text/plain'}));a.download='.env';a.click();};
 gen();
