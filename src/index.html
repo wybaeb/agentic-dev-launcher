@@ -55,7 +55,10 @@ details{background:var(--panel);border:1px solid var(--line);border-radius:14px;
 <div class="step"><h2><span class="n">5</span>Финал — вкладка 1</h2>
 <pre><button class="copy">Копировать</button>/status</pre>
 <pre><button class="copy">Копировать</button>Переключись на ветку integration, прогони python3 -m pytest -q tests/acceptance и покажи вердикт ревьюера из ~/logs/review.md</pre>
-<div class="say">Приёмка — то, что объявили готовностью до старта. Ревьюер — не автор. Решение о поставке — за человеком.</div></div>
+<div class="say">Приёмка — то, что объявили готовностью до старта. Ревьюер — не автор. Решение о поставке — за человеком.</div>
+<p>Если в <code>/status</code> последнее событие «завершено: тесты КРАСНЫЕ»:</p>
+<pre><button class="copy">Копировать</button>/wrangle-fix</pre>
+<div class="say">Погонщик ставит задачу-починку ровно по упавшим тестам и стартует от ветки <code>integration</code> (5–15 минут). Другие пути — спросить агента: «что делать дальше с погонщиком?», он читает <code>WRANGLER.md</code>.</div></div>
 
 <details><summary>Запасной короткий прогон, 8–12 минут</summary>
 <pre><button class="copy">Копировать</button>/wrangle Реализуй app/catalog.py и app/eligibility.py по spec/CONTRACTS.md с модульными тестами, параллельно. Остальное не трогать.</pre></details>
