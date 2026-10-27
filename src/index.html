@@ -53,7 +53,7 @@ ssh demo@2.29.119.224 'cd ~/korona-partners && opencode run --model litellm/plan
 reset-demo korona-partners
 cd ~/korona-partners</pre>
 
-<h3>3.1 · Запуск длинного прогона — окно 1, прямо в терминале <span class="tag">сразу, идёт 30–50 мин фоном</span></h3>
+<h3>3.1 · Запуск длинного прогона — окно 1, прямо в терминале <span class="tag">сразу; полный цикл ≈ 1,5 ч — запускаем за час до начала</span></h3>
 <pre><button class="copy">Копировать</button>wrangle "Реализуй изменение launch-partners-v1: openspec/changes/launch-partners-v1 (proposal, design, tasks) и контракты spec/CONTRACTS.md. Критерий готовности — зелёная приёмка tests/acceptance (JSON API и мобильный веб /m/*)."</pre>
 <div class="say">Через 1–2 минуты — план из 8 подзадач тремя волнами: пять модулей параллельно, затем redemption, затем API и мобильный веб. Каждая подзадача — свой субагент в своей ветке <code>task/Tn</code>; после волны — слияние в <code>integration</code>, перепланирование, в конце — ревьюер.</div>
 
@@ -87,7 +87,7 @@ cd ~/korona-partners && opencode</pre>
 <pre><button class="copy">Копировать</button>/status
 Переключись на ветку integration, прогони python3 -m pytest -q tests/acceptance и покажи вердикт ревьюера из ~/logs/review.md</pre>
 <div class="say">Приёмка — то, что мы объявили готовностью до старта. Ревьюер — не автор. Решение о поставке — за человеком над циклом.</div>
-<p class="hint">Запасной короткий прогон (8–12 мин): <code>/wrangle Реализуй app/catalog.py и app/eligibility.py по spec/CONTRACTS.md с модульными тестами, параллельно. Остальное не трогать.</code> Старый проект <code>~/korona-transfers</code> на месте: <code>reset-demo korona-transfers</code>.</p>
+<p class="hint">Эталон 27.10: 98 мин, 10 подзадач, 6 волн, приёмка зелёная, ревьюер — «доработать» (поймал ослабленные тесты у агента-починщика). Запасной короткий прогон (8–12 мин): <code>/wrangle Реализуй app/catalog.py и app/eligibility.py по spec/CONTRACTS.md с модульными тестами, параллельно. Остальное не трогать.</code> Старый проект <code>~/korona-transfers</code> на месте: <code>reset-demo korona-transfers</code>.</p>
 
 <h3>3.5 · Карта программы <span class="tag">10 мин</span></h3>
 <p>По элементу из <code>lesson-01/map/</code> на каждое следующее занятие — лежит в репозитории слушателей <code>agentic-dev-course-students</code>, папка <code>lesson-01</code>: показываем с ноутбука.</p></div>
