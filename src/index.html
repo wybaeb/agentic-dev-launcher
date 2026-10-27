@@ -51,10 +51,10 @@ ssh demo@2.29.119.224 'cd ~/korona-partners && opencode run --model litellm/plan
 <p>Проект — <b>korona-partners</b>: программа партнёров для получателей переводов (кейс команды B). Спецификация в формате OpenSpec и приёмочные тесты написаны до кода: <code>openspec/</code>, <code>spec/CONTRACTS.md</code>, <code>tests/acceptance</code> — красные.</p>
 <pre><button class="copy">Копировать</button>ssh demo@2.29.119.224
 reset-demo korona-partners
-cd ~/korona-partners && opencode</pre>
+cd ~/korona-partners</pre>
 
-<h3>3.1 · Запуск длинного прогона — окно 1 <span class="tag">сразу, идёт 30–50 мин фоном</span></h3>
-<pre><button class="copy">Копировать</button>/wrangle Реализуй изменение launch-partners-v1: openspec/changes/launch-partners-v1 (proposal, design, tasks) и контракты spec/CONTRACTS.md. Критерий готовности — зелёная приёмка tests/acceptance (JSON API и мобильный веб /m/*).</pre>
+<h3>3.1 · Запуск длинного прогона — окно 1, прямо в терминале <span class="tag">сразу, идёт 30–50 мин фоном</span></h3>
+<pre><button class="copy">Копировать</button>wrangle "Реализуй изменение launch-partners-v1: openspec/changes/launch-partners-v1 (proposal, design, tasks) и контракты spec/CONTRACTS.md. Критерий готовности — зелёная приёмка tests/acceptance (JSON API и мобильный веб /m/*)."</pre>
 <div class="say">Через 1–2 минуты — план из 8 подзадач тремя волнами: пять модулей параллельно, затем redemption, затем API и мобильный веб. Каждая подзадача — свой субагент в своей ветке <code>task/Tn</code>; после волны — слияние в <code>integration</code>, перепланирование, в конце — ревьюер.</div>
 
 <h3>3.2 · Доска — окно 2 <span class="tag">держим на экране всё занятие</span></h3>
